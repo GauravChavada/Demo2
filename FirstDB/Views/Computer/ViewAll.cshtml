@@ -1,0 +1,49 @@
+﻿@model List<FirstDB.Models.ComputerModel>
+@using FirstDB.Models
+@{
+    ViewBag.Title = "ViewAll";
+    int Index = 1;
+    string Style = string.Empty;
+}
+
+<table class="table table-bordered" style="margin-top:30px;">
+    <thead>
+        <tr>
+            <th colspan="5">Total No of Computer : @Model.ToList().Count</th>
+        </tr>
+        <tr>
+            <th>Sr</th>
+            <th>Company Name</th>
+            <th>Prize</th>
+            <th>Document Date</th>
+            <th>OS</th>
+        </tr>
+    </thead>
+
+    @foreach (ComputerModel computer in Model.ToList())
+    {
+        Style = string.Empty;
+        //if (computer.Prize <= 20000)
+        //{
+        //    Style = "background-color:gray;color:white;";
+        //}
+
+        <tr style="@Style">
+            <td>@Index</td>
+            <td>@computer.Company_Name</td>
+            <td>@computer.Prize</td>
+            <td>@computer.Document_Date.ToString("dd-MM-yyyy")</td>
+            <td>@computer.OS</td>
+        </tr>
+        Index++;
+    }
+    <tfoot>
+        <tr>
+            <th colspan="2">
+                Total
+            </th>
+            <th colspan="3">@Model.ToList().Sum(m => m.Prize)</th>
+        </tr>
+    </tfoot>
+</table>
+

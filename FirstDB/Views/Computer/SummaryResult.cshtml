@@ -1,0 +1,72 @@
+﻿@model List<FirstDB.Models.ComputerModel>
+@using FirstDB.Models
+@{
+    ViewBag.Title = "SummaryResult";
+
+    List<ComputerModel> allData = Model;
+
+    var CompanyNames = allData.Select(m => new { m.Company_Name }).ToList().Distinct();
+    List<ComputerModel> filterData = new List<ComputerModel>();
+
+
+    List<ComputerViewModel> computerViewModels = ViewBag.ViewModelCom as List<ComputerViewModel>;
+}
+
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>Company Name</th>
+            <th>Total No of Computers</th>
+            <th>Total Prize</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in CompanyNames.ToList())
+        {
+            filterData = allData.Where(m => m.Company_Name.Equals(item.Company_Name)).ToList();
+            <tr>
+                <td>@item.Company_Name.ToString()</td>
+                <td>@filterData.Count</td>
+                <td>@filterData.Sum(m => m.Prize)</td>
+            </tr>
+        }
+
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Total : @CompanyNames.Count()</th>
+            <th>@allData.Count No Computer </th>
+            <th>@allData.Sum(m => m.Prize) Total Prize</th>
+        </tr>
+    </tfoot>
+</table>
+<br />
+<br />
+
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>Company Name</th>
+            <th>Total No of Computers</th>
+            <th>Total Prize</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in computerViewModels)
+        {
+            <tr>
+                <td>@item.Company_Name.ToString()</td>
+                <td>@item.Total_No_Computers</td>
+                <td>@item.Total_Prize</td>
+            </tr>
+        }
+
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Total : @computerViewModels.Count()</th>
+            <th>@computerViewModels.Sum(m=>m.Total_No_Computers) No Computer </th>
+            <th>@computerViewModels.Sum(m => m.Total_Prize) Total Prize</th>
+        </tr>
+    </tfoot>
+</table>
